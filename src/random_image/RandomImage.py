@@ -27,9 +27,12 @@ class RandomImage:
     def _set_category(self, passed_category: Optional[str]) -> None:
         # TODO: check if the category exists
         if not passed_category:
-            self.category = self._get_random_category()
+            self._set_random_category()
         else:
             self.category = passed_category
+
+    def _set_random_category():
+        self.category = self._get_random_category()
 
     @cache
     def _load_repository_file(self, category: str) -> list[str]:
