@@ -1,1 +1,3 @@
 from .numpy_was_not_found_exception import NumpyWasNotFoundException
+from .torch_was_not_found_exception import TorchWasNotFoundException
+from .torchvision_was_not_found_exception import TorchVisionWasNotFoundException

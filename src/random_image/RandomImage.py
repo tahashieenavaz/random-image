@@ -6,7 +6,11 @@ from PIL import Image
 from importlib.resources import files
 from functools import cache
 from typing import Optional
-from random_image.exceptions import NumpyWasNotFoundException
+from random_image.exceptions import (
+    NumpyWasNotFoundException,
+    TorchWasNotFoundException,
+    TorchVisionWasNotFoundException,
+)
 
 
 class RandomImage:
@@ -56,6 +60,25 @@ class RandomImage:
 
     def pil(self):
         return Image.open(self.filename)
+
+    def _get_torch_transform_pipeline(self):
+        try:
+            import torch
+        except ModuleNotFoundError:
+            raise TorchWasNotFoundException
+
+        try:
+            import torchvision.transforms.v2 as transforms
+        except ModuleNotFoundError:
+            raise TorchVisionWasNotFoundException
+
+        return transforms.Compose(
+            [transforms.ToImage(), transforms.ToDtype(torch.float32, scale=True)]
+        )
+
+    def torch(self):
+        transform = self._get_torch_transform_pipeline()
+        return transform(self.pil())
 
     def numpy(self):
         try:
