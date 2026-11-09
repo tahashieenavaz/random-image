@@ -6,10 +6,7 @@ from PIL import Image
 from importlib.resources import files
 from functools import cache
 from typing import Optional
-from random_image.exceptions import (
-    NumpyWasNotFoundException,
-)
-from random_image.functions import load_torch, load_torch_vision
+from random_image.functions import load_torch, load_torch_vision, load_numpy
 
 
 class RandomImage:
@@ -81,9 +78,5 @@ class RandomImage:
         return transform(self.pil())
 
     def numpy(self):
-        try:
-            import numpy
-        except ModuleNotFoundError:
-            raise NumpyWasNotFoundException
-
+        numpy = load_numpy()
         return numpy.asarray(self.pil())
