@@ -8,9 +8,8 @@ from functools import cache
 from typing import Optional
 from random_image.exceptions import (
     NumpyWasNotFoundException,
-    TorchWasNotFoundException,
-    TorchVisionWasNotFoundException,
 )
+from random_image.functions import load_torch, load_torch_vision
 
 
 class RandomImage:
@@ -70,15 +69,8 @@ class RandomImage:
         return Image.open(self.filename).resize((self.width, self.height))
 
     def _get_torch_transform_pipeline(self):
-        try:
-            import torch
-        except ModuleNotFoundError:
-            raise TorchWasNotFoundException
-
-        try:
-            import torchvision.transforms.v2 as transforms
-        except ModuleNotFoundError:
-            raise TorchVisionWasNotFoundException
+        torch = load_torch()
+        transforms = load_torch_vision().transforms.v2
 
         return transforms.Compose(
             [transforms.ToImage(), transforms.ToDtype(torch.float32, scale=True)]
