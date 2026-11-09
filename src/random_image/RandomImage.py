@@ -2,6 +2,7 @@ from typing import Optional
 import yaml
 import random
 from importlib.resources import files
+from functools import cache
 
 
 class RandomImage:
@@ -16,11 +17,12 @@ class RandomImage:
         else:
             self.category = passed_category
 
-    def _load_repository_file(self):
+    def _load_repository_file(self) -> None:
         with files("random_image").joinpath(f"repository/{self.category}.yaml").open() as stream:
             image_urls = yaml.safe_load(stream=stream)
             self.image_urls = image_urls
 
+    @cache
     def _get_categories(self) -> list[str]:
         repository_directory = files("random_image").joinpath(f"repository/{self.category}.yaml")
         yaml_files_generator = repository_directory.glob("*.yaml")
