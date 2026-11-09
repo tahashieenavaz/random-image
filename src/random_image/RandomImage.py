@@ -1,5 +1,6 @@
 from typing import Optional
 import yaml
+import random
 from importlib.resources import files
 
 
@@ -20,8 +21,13 @@ class RandomImage:
             image_urls = yaml.safe_load(stream=stream)
             self.image_urls = image_urls
 
+    def _get_categories(self) -> list[str]:
+        repository_directory = files("random_image").joinpath(f"repository/{self.category}.yaml")
+        yaml_files_generator = repository_directory.glob("*.yaml")
+        return list(map(lambda x: x.name, yaml_files_generator))
+
     def _get_random_category(self):
-        return 
+        return random.choice(self._get_categories())
 
     def _get_random_image(self):
         # load repositry file 
