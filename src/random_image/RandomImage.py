@@ -14,7 +14,12 @@ from random_image.exceptions import (
 
 
 class RandomImage:
-    def __init__(self, category: Optional[str] = None):
+    def __init__(
+        self, category: Optional[str] = None, width: int = 224, height: int = 224
+    ):
+        self.width = width
+        self.height = height
+
         self.filename = self._generate_downloaded_file_name()
         self._set_category(passed_category=category)
         self._get_random_image()
@@ -59,7 +64,7 @@ class RandomImage:
         self._save_file(self.filename, random_image_url)
 
     def pil(self):
-        return Image.open(self.filename)
+        return Image.open(self.filename).resize((self.width, self.height))
 
     def _get_torch_transform_pipeline(self):
         try:
