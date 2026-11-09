@@ -17,14 +17,16 @@ class RandomImage:
         else:
             self.category = passed_category
 
-    def _load_repository_file(self) -> None:
-        with files("random_image").joinpath(f"repository/{self.category}.yaml").open() as stream:
+    @cache
+    def _load_repository_file(self, category: str) -> None:
+        with files("random_image").joinpath(f"repository/{category}.yaml").open() as stream:
             image_urls = yaml.safe_load(stream=stream)
-            self.image_urls = image_urls
+            return image_urls
+            
 
     @cache
     def _get_categories(self) -> list[str]:
-        repository_directory = files("random_image").joinpath(f"repository/{self.category}.yaml")
+        repository_directory = files("random_image").joinpath(f"repository")
         yaml_files_generator = repository_directory.glob("*.yaml")
         return list(map(lambda x: x.name, yaml_files_generator))
 
