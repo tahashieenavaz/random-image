@@ -31,7 +31,7 @@ class RandomImage:
         else:
             self.category = passed_category
 
-    def _set_random_category():
+    def _set_random_category(self):
         self.category = self._get_random_category()
 
     @cache
