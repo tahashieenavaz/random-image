@@ -19,7 +19,7 @@ classifiers = [
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dependencies = ["pillow"]
+dependencies = ["pillow", "pyyaml"]
 keywords = ["image", "python", "productivity"]
 license = { file = "LICENSE" }
 
