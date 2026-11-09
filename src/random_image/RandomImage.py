@@ -1,0 +1,2 @@
+class RandomImage:
+    pass
