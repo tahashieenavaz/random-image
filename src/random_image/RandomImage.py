@@ -1,12 +1,12 @@
-from typing import Optional
 import yaml
 import random
 import datetime
 import requests
-import numpy
 from PIL import Image
 from importlib.resources import files
 from functools import cache
+from typing import Optional
+from random_image.exceptions import NumpyWasNotFoundException
 
 
 class RandomImage:
@@ -58,4 +58,9 @@ class RandomImage:
         return Image.open(self.filename)
 
     def numpy(self):
+        try:
+            import numpy
+        except ModuleNotFoundError:
+            raise NumpyWasNotFoundException
+
         return numpy.asarray(self.pil())
